@@ -1,1 +1,102 @@
+body {
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+  background: #f6f7fb;
+}
 
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 { margin: 0 0 6px; }
+.subtitle { margin: 0 0 16px; color: #444; }
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 18px;
+}
+
+.problem {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.answerRow {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  font-size: 18px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#submitBtn {
+  background: #2563eb;
+  color: white;
+}
+
+.feedback {
+  min-height: 24px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.progress {
+  margin-top: 8px;
+  color: #444;
+}
+
+.gridWrap {
+  background: white;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+.cell.revealed {
+  background: var(--color, #111827);
+}
+
+.win {
+  margin-top: 18px;
+  background: #16a34a;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden { display: none; }
