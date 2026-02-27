@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mystery Picture Math</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Mystery Picture Math</h1>
+    <p class="subtitle">Solve to reveal the picture!</p>
 
+    <div class="card">
+      <div id="problemText" class="problem">Loading…</div>
+
+      <div class="answerRow">
+        <input id="answerInput" type="text" inputmode="numeric" autocomplete="off" placeholder="Type answer" />
+        <button id="submitBtn">Submit</button>
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+      <div class="progress">
+        Progress: <span id="progressText">0</span>/<span id="totalText">0</span>
+      </div>
+    </div>
+
+    <div class="gridWrap">
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <div id="winScreen" class="win hidden">
+      🎉 You revealed the mystery picture!
+      <button id="playAgainBtn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
