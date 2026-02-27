@@ -13,16 +13,18 @@ const problems = [
   { q: "(12 − 4) × 2", a: 16 },
   { q: "25 ÷ 5 + 7", a: 12 },
 ];
+
 // ----------------------------
-// 2) Mystery image stages (updated names)
+// 2) Mystery image stages (Updated order)
 // ----------------------------
 const imageStages = [
-  "image/1.png",  // Stage 1 (full resolution)
+  "image/1.png",  // Stage 1 (most pixelated)
   "image/2.png",  // Stage 2
   "image/3.png",  // Stage 3
   "image/4.png",  // Stage 4
-  "image/5.png"   // Stage 5 (most pixelated)
+  "image/5.png"   // Stage 5 (least pixelated, final image)
 ];
+
 // ----------------------------
 // 3) Game state
 // ----------------------------
@@ -70,6 +72,7 @@ function startGame() {
   // update total progress
   el("totalText").textContent = problems.length;
   el("progressText").textContent = "0";
+  el("winScreen").classList.add("hidden");
 }
 
 function checkAnswer() {
@@ -117,6 +120,9 @@ window.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") checkAnswer();
   });
   el("playAgainBtn").addEventListener("click", startGame);
+
+  // Restart Button
+  el("restartBtn").addEventListener("click", startGame);
 
   startGame();
 });
