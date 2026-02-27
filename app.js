@@ -15,37 +15,21 @@ const problems = [
 ];
 
 // ----------------------------
-// 2) Mystery picture pattern
-//    10x10: each tile has a target "color"
-//    Empty string = leave blank (never reveal)
+// 2) Mystery image stages
 // ----------------------------
-// Simple heart-ish shape as a starter.
-// You can replace with any pixel art later.
-const picture = [
-  ["", "", "R","R","", "", "R","R","", ""],
-  ["", "R","R","R","R","R","R","R","R",""],
-  ["R","R","R","R","R","R","R","R","R","R"],
-  ["R","R","R","R","R","R","R","R","R","R"],
-  ["", "R","R","R","R","R","R","R","R",""],
-  ["", "", "R","R","R","R","R","R","", ""],
-  ["", "", "", "R","R","R","R","", "", ""],
-  ["", "", "", "", "R","R","", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
+const imageStages = [
+  "image/1-pixelated.jpg",  // Stage 1 (heavily pixelated)
+  "image/2-low-res.jpg",    // Stage 2 (slightly clearer)
+  "image/3-medium-res.jpg", // Stage 3 (clearer)
+  "image/4-high-res.jpg",   // Stage 4 (almost clear)
+  "image/5-full.jpg"        // Final reveal (full image)
 ];
-
-// map symbols to actual colors
-const colorMap = {
-  "R": "#ef4444",
-};
 
 // ----------------------------
 // 3) Game state
 // ----------------------------
-let order = [];          // randomized indices of problems
-let currentIndex = 0;    // which problem the student is on
-let revealedCount = 0;   // how many picture tiles are revealed
-let revealTargets = [];  // list of revealable cells
+let currentIndex = 0;      // which problem the student is on
+let revealedStage = 0;     // the current image stage (0–4)
 
 // ----------------------------
 // 4) Helpers
@@ -60,71 +44,34 @@ function shuffle(arr) {
   return arr;
 }
 
-function initGrid() {
-  const grid = el("grid");
-  grid.innerHTML = "";
+function loadProblem() {
+  const problem = problems[currentIndex];
+  el("problemText").textContent = problem.q;
+}
 
-  revealTargets = [];
-
-  for (let r = 0; r < 10; r++) {
-    for (let c = 0; c < 10; c++) {
-      const sym = picture[r][c];
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      cell.id = `cell-${r}-${c}`;
-
-      if (sym) {
-        cell.style.setProperty("--color", colorMap[sym] || "#111827");
-        revealTargets.push({ r, c });
-      } else {
-        // keep these as permanent background
-        cell.style.background = "#f3f4f6";
-      }
-
-      grid.appendChild(cell);
-    }
-  }
+function updateImage() {
+  // Update image source based on the stage
+  el("image").src = imageStages[revealedStage];
 }
 
 function startGame() {
   // randomize problems
-  order = shuffle([...Array(problems.length).keys()]);
+  shuffle(problems);
   currentIndex = 0;
-  revealedCount = 0;
+  revealedStage = 0;
 
-  // reset grid
-  initGrid();
-  // hide win screen
-  el("winScreen").classList.add("hidden");
+  // reset the image to the first pixelated stage
+  updateImage();
 
-  // update totals
-  el("totalText").textContent = Math.min(problems.length, revealTargets.length);
-  el("progressText").textContent = "0";
-
+  // reset problem
   loadProblem();
   el("feedback").textContent = "";
   el("answerInput").value = "";
   el("answerInput").focus();
-}
 
-function loadProblem() {
-  const problem = problems[order[currentIndex]];
-  el("problemText").textContent = problem.q;
-}
-
-function revealNextTile() {
-  if (revealedCount >= revealTargets.length) return;
-
-  const { r, c } = revealTargets[revealedCount];
-  el(`cell-${r}-${c}`).classList.add("revealed");
-  revealedCount++;
-
-  el("progressText").textContent = String(revealedCount);
-
-  // win condition: either all problems done OR all picture tiles revealed
-  if (revealedCount >= Math.min(problems.length, revealTargets.length)) {
-    el("winScreen").classList.remove("hidden");
-  }
+  // update total progress
+  el("totalText").textContent = problems.length;
+  el("progressText").textContent = "0";
 }
 
 function checkAnswer() {
@@ -132,22 +79,27 @@ function checkAnswer() {
   if (raw === "") return;
 
   const studentAnswer = Number(raw);
-  const correct = problems[order[currentIndex]].a;
+  const correct = problems[currentIndex].a;
 
   if (studentAnswer === correct) {
     el("feedback").textContent = "✅ Correct!";
     el("feedback").style.color = "#16a34a";
 
-    revealNextTile();
+    // Move to the next stage of the image
+    revealedStage++;
+    if (revealedStage < imageStages.length) {
+      updateImage();
+    }
 
+    // Move to next problem
     currentIndex++;
     el("answerInput").value = "";
 
-    if (currentIndex < problems.length && revealedCount < revealTargets.length) {
+    if (currentIndex < problems.length) {
       loadProblem();
       el("answerInput").focus();
     } else {
-      // either out of problems or picture done
+      // win condition: all problems done
       el("winScreen").classList.remove("hidden");
     }
   } else {
