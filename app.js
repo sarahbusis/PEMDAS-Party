@@ -52,6 +52,11 @@ function loadProblem() {
 function updateImage() {
   // Update image source based on the stage
   el("image").src = imageStages[revealedStage];
+
+  // Trigger fireworks when final stage (Stage 5) is revealed
+  if (revealedStage === imageStages.length - 1) {
+    triggerFireworks();
+  }
 }
 
 function startGame() {
@@ -112,7 +117,30 @@ function checkAnswer() {
 }
 
 // ----------------------------
-// 5) Wire up events
+// 5) Fireworks Animation
+// ----------------------------
+function triggerFireworks() {
+  const fireworksContainer = document.createElement('div');
+  fireworksContainer.classList.add('fireworks');
+  document.body.appendChild(fireworksContainer);
+
+  // Create fireworks elements
+  for (let i = 0; i < 5; i++) {
+    const firework = document.createElement('div');
+    firework.classList.add('firework');
+    firework.style.left = `${Math.random() * 100}%`;
+    firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // Randomize duration for each firework
+    fireworksContainer.appendChild(firework);
+  }
+
+  // Remove fireworks after animation ends
+  setTimeout(() => {
+    fireworksContainer.remove();
+  }, 2000); // Match duration of fireworks animation
+}
+
+// ----------------------------
+// 6) Wire up events
 // ----------------------------
 window.addEventListener("DOMContentLoaded", () => {
   el("submitBtn").addEventListener("click", checkAnswer);
