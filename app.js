@@ -13,18 +13,16 @@ const problems = [
   { q: "(12 − 4) × 2", a: 16 },
   { q: "25 ÷ 5 + 7", a: 12 },
 ];
-
 // ----------------------------
-// 2) Mystery image stages
+// 2) Mystery image stages (updated names)
 // ----------------------------
 const imageStages = [
-  "image/1-pixelated.jpg",  // Stage 1 (heavily pixelated)
-  "image/2-low-res.jpg",    // Stage 2 (slightly clearer)
-  "image/3-medium-res.jpg", // Stage 3 (clearer)
-  "image/4-high-res.jpg",   // Stage 4 (almost clear)
-  "image/5-full.jpg"        // Final reveal (full image)
+  "image/1.png",  // Stage 1 (full resolution)
+  "image/2.png",  // Stage 2
+  "image/3.png",  // Stage 3
+  "image/4.png",  // Stage 4
+  "image/5.png"   // Stage 5 (most pixelated)
 ];
-
 // ----------------------------
 // 3) Game state
 // ----------------------------
